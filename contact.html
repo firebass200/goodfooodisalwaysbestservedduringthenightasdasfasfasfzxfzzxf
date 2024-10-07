@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Builder - Contact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://via.placeholder.com/1920x1080'); /* Set your default background image URL here */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            padding: 60px 20px 20px 20px;
+            text-align: center;
+            background: rgba(255,255,255,0.8);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .navbar a:hover {
+            background: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .container {
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .submit-button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        .submit-button:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Your CV Builder</h1>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="personal.html">Personal Info</a>
+        <a href="education.html">Education</a>
+        <a href="work.html">Work Experience</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="container">
+        <h2>Contact Me</h2>
+        <form id="contactForm">
+            <label for="contactName">Name:</label>
+            <input type="text" id="contactName" required>
+
+            <label for="contactEmail">Email:</label>
+            <input type="email" id="contactEmail" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" rows="5" required></textarea>
+
+            <button type="button" class="submit-button" onclick="submitContact()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Load background image from localStorage (fixed, no change)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate contact form if data exists
+            const contact = JSON.parse(localStorage.getItem('contactForm'));
+            if (contact) {
+                document.getElementById('contactName').value = contact.name;
+                document.getElementById('contactEmail').value = contact.email;
+                document.getElementById('message').value = contact.message;
+            }
+        });
+
+        function submitContact() {
+            const contact = {
+                name: document.getElementById('contactName').value.trim(),
+                email: document.getElementById('contactEmail').value.trim(),
+                message: document.getElementById('message').value.trim()
+            };
+
+            if (contact.name === "" || contact.email === "" || contact.message === "") {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            localStorage.setItem('contactForm', JSON.stringify(contact));
+            alert('Your message has been saved!');
+            // Optionally, you can clear the form after submission
+            // document.getElementById('contactForm').reset();
+        }
+    </script>
+</body>
+</html>

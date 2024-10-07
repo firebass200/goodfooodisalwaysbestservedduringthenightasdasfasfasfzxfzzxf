@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Builder - Projects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://via.placeholder.com/1920x1080'); /* Replace with your desired default background image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            padding: 50px 20px 10px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            padding: 15px 25px;
+            margin: 5px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .navbar a:hover {
+            background-color: #ccc;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .container {
+            padding: 20px;
+            max-width: 700px;
+            margin: 20px auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+        }
+        .project-entry {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, textarea, a {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            text-decoration: none;
+            color: #333;
+        }
+        .remove-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #EA4335;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .remove-button:hover {
+            background-color: #c9302c;
+        }
+        .add-button, .save-button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #34A853;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+        .add-button:hover, .save-button:hover {
+            background-color: #2c8e46;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Projects</h1>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="personal.html">Personal Info</a>
+        <a href="education.html">Education</a>
+        <a href="work.html">Work Experience</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="container">
+        <div id="projectContainer"></div>
+        <button class="add-button" onclick="addProject()">Add Project</button>
+        <button class="save-button" onclick="saveProjects()">Save</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load project entries if exist
+            const projects = JSON.parse(localStorage.getItem('projects'));
+            if (projects && projects.length > 0) {
+                projects.forEach(entry => addProject(entry));
+            } else {
+                addProject();
+            }
+        });
+
+        function addProject(data = {}) {
+            const container = document.getElementById('projectContainer');
+            const div = document.createElement('div');
+            div.className = 'project-entry';
+            div.innerHTML = `
+                <button type="button" class="remove-button" onclick="removeProject(this)">Remove</button>
+                <label>Project Name:</label>
+                <input type="text" class="projectName" value="${data.projectName || ''}" required>
+
+                <label>Description:</label>
+                <textarea class="description" rows="4" required>${data.description || ''}</textarea>
+
+                <label>Link:</label>
+                <input type="url" class="link" value="${data.link || ''}">
+            `;
+            container.appendChild(div);
+        }
+
+        function removeProject

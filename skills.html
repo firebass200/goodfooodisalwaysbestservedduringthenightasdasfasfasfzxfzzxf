@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Builder - Skills</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://via.placeholder.com/1920x1080'); /* Replace with your desired default background image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            padding: 50px 20px 10px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            padding: 15px 25px;
+            margin: 5px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .navbar a:hover {
+            background-color: #ccc;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .add-button, .save-button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #34A853;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+        .add-button:hover, .save-button:hover {
+            background-color: #2c8e46;
+        }
+        .skill-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .skill-list li {
+            background: #f1f1f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .skill-list li:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Skills</h1>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="personal.html">Personal Info</a>
+        <a href="education.html">Education</a>
+        <a href="work.html">Work Experience</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="container">
+        <input type="text" id="skillInput" placeholder="Enter a skill">
+        <button class="add-button" onclick="addSkill()">Add Skill</button>
+        <button class="save-button" onclick="saveSkills()">Save</button>
+        <ul class="skill-list" id="skillList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load skills if exist
+            const skills = JSON.parse(localStorage.getItem('skills'));
+            if (skills && skills.length > 0) {
+                skills.forEach(skill => addSkillToList(skill));
+            }
+        });
+
+        function addSkill() {
+            const skill = document.getElementById('skillInput').value.trim();
+            if (skill !== '') {
+                addSkillToList(skill);
+                document.getElementById('skillInput').value = '';
+            }
+        }
+
+        function addSkillToList(skill) {
+            const li = document.createElement('li');
+            li.textContent = skill;
+            li.onclick = function() {
+                if(confirm('Do you want to remove this skill?')) {
+                    this.remove();
+                }
+            };
+            document.getElementById('skillList').appendChild(li);
+        }
+
+        function saveSkills() {
+            const skills = [];
+            const lis = document.querySelectorAll('#skillList li');
+            lis.forEach(li => skills.push(li.textContent));
+            localStorage.setItem('skills', JSON.stringify(skills));
+            alert('Skills Saved!');
+        }
+    </script>
+</body>
+</html>
