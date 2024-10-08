@@ -23,28 +23,6 @@
             margin: 0;
             font-size: 36px;
         }
-        .navbar {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px 0;
-        }
-        .navbar a {
-            text-decoration: none;
-            color: #333;
-            padding: 15px 25px;
-            margin: 5px;
-            background-color: #f1f1f1;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .navbar a:hover {
-            background-color: #ccc;
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
         .container {
             padding: 20px;
             max-width: 700px;
@@ -110,16 +88,6 @@
         <h1>Projects</h1>
     </div>
 
-    <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="personal.html">Personal Info</a>
-        <a href="education.html">Education</a>
-        <a href="work.html">Work Experience</a>
-        <a href="skills.html">Skills</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-    </div>
-
     <div class="container">
         <div id="projectContainer"></div>
         <button class="add-button" onclick="addProject()">Add Project</button>
@@ -144,15 +112,49 @@
             div.innerHTML = `
                 <button type="button" class="remove-button" onclick="removeProject(this)">Remove</button>
                 <label>Project Name:</label>
-                <input type="text" class="projectName" value="${data.projectName || ''}" required>
+                <input type="text" class="projectName" value="${escapeHTML(data.projectName || '')}" required>
 
                 <label>Description:</label>
-                <textarea class="description" rows="4" required>${data.description || ''}</textarea>
+                <textarea class="description" rows="4" required>${escapeHTML(data.description || '')}</textarea>
 
                 <label>Link:</label>
-                <input type="url" class="link" value="${data.link || ''}">
+                <input type="url" class="link" value="${escapeHTML(data.link || '')}">
             `;
             container.appendChild(div);
         }
 
-        function removeProject
+        function removeProject(button) {
+            const projectEntry = button.parentElement;
+            projectEntry.remove();
+        }
+
+        function saveProjects() {
+            const projectEntries = document.querySelectorAll('.project-entry');
+            const projects = [];
+
+            projectEntries.forEach(entry => {
+                const projectName = entry.querySelector('.projectName').value.trim();
+                const description = entry.querySelector('.description').value.trim();
+                const link = entry.querySelector('.link').value.trim();
+
+                if (projectName && description) { // Ensure required fields are filled
+                    projects.push({ projectName, description, link });
+                }
+            });
+
+            localStorage.setItem('projects', JSON.stringify(projects));
+            alert('Projects saved successfully!');
+        }
+
+        // Optional: Function to escape HTML to prevent XSS attacks
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;")
+                      .replace(/</g, "&lt;")
+                      .replace(/>/g, "&gt;")
+                      .replace(/"/g, "&quot;")
+                      .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
